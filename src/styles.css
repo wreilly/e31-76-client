@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.center {
+    text-align: center;
+}
+
+.banner {
+    padding: 5px 0px 0px 10px;
+    background: #00B7FF;
+}
+
+a {
+    color: #00B7FF;
+}
+
+* {
+    box-sizing: border-box;
+}
