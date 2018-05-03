@@ -1,0 +1,78 @@
+<!--<app-header></app-header>-->
+<strong>ARTICLE-LIST.COMPONENT</strong>
+<p style="font-size: small;">Pointed to API at: {{ apiUrlStubInApp }}</p>
+<div class="row" style="border-style: dashed; border-color: #142cff;">
+    <div>You clicked:</div>
+    <div style="font-size: x-large">{{titleToDisplay}}</div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="column left">
+        <h3>1. Display Articles - from REST API, using Angular Form</h3>
+        <div style="background-color: lightgreen; padding: 10px;">
+            <h4>1.A. Display "First n" Articles</h4>
+            <div>
+                <input type="number" id="numberArticles_id" name="numberArticles_name" style="width: 4em" min="1" placeholder="#..." #numberArticlesNgRef />
+                <br />
+                <br />
+                <button (click)="getThisManyArticles(numberArticlesNgRef)"
+                        (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)">Get 'n' Articles</button>
+                <br />
+            </div>
+        </div>
+        <br />
+        <div style="background-color: lightblue; padding: 10px;">
+            <h4>1.B. Display All Articles</h4>
+            <button (click)="getAllArticlesOnClick()"
+                    (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)">Get All Articles</button>
+            <br />
+            <br />
+            <button (click)="clearAllArticlesOnClick()" style="font-style: italic;"
+                    (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)">(Clear Articles)</button>
+        </div>
+
+    </div>
+    <div class="column middle">
+        <h3>Articles Listed from Form/Button</h3>
+        <p>Number of Articles Requested: {{ articlesHowMany.length }}</p>
+        <hr />
+        <app-article
+                *ngFor='let article of articlesHowMany'
+                [articleToSendDown]="article"
+                [apiUrlStubInArticleAlias]="apiUrlStubInApp"
+                on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
+    </div>
+    <div class="column right">
+        <h3>Articles Listed from ngOnInit()</h3>
+        <p>Number of Articles: {{ articles.length }}</p>
+        <hr />
+        <app-article
+                *ngFor='let article of articles'
+                [articleToSendDown]="article"
+                [apiUrlStubInArticleAlias]="apiUrlStubInApp"
+                on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
+    </div>
+</div>
+<h3>2. Add a New Article</h3>
+
+<div style="border-color: green; border-style: dotted; padding: 10px;">
+    <form [formGroup]="addArticleForm" on-ngSubmit="addArticle()">
+        <label for="articleUrl_id">NYT URL: </label>
+        <input type="text" id="articleUrl_id" name="articleUrl_name" size="40" formControlName="articleUrl_formControlName" />
+        <br />
+        <label for="articleTitle_id">Headline: </label>
+        <input type="text" id="articleTitle_id" name="articleTitle_name" size="40" formControlName="articleTitle_formControlName" />
+        <br />
+        <button type="submit">Add Article</button>
+    </form>
+</div>
+<div  *ngIf="articleIJustCreatedBoolean">
+    <app-article
+            [articleToSendDown]="articleIJustCreatedDisplay"
+            [apiUrlStubInArticleAlias]="apiUrlStubInApp"
+            on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
+</div>
+
