@@ -1,1 +1,59 @@
-<p>Article Detail in the house</p>
+<strong>ARTICLE-DETAIL.COMPONENT</strong>
+<h3>Article Detail Page</h3>
+
+<!-- Interesting.
+If I do not have the "*ngIf" test below, then via console I see that the app does hit an error:
+
+"TypeError: Cannot read property 'articleTitle' of undefined
+    at Object.eval [as updateRenderer] (ArticleDetailComponent.html:5)"
+
+Apparently the asynchronous "subscribe" to the Observable, to get the ID param off the URL, happens a little later such that the property is not yet initialized ... Hmm.
+
+The data does arrive, and does get rendered to page, and doesn't break things, but, would be better to not have this error/red-ink on the console, yes?
+
+A. I see in Instructor Code that he too uses this "*ngIf" test, to ensure the property is available, before asking the template to display it. O.K.
+https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=src%2Fapp%2Fphotodetail%2Fphotodetail.component.html
+<div *ngIf="photo"> ...
+-->
+<!--
+<h4>{{ theArticleHereInDetailPage.articleTitle }}</h4>
+-->
+<!--  With this "*ngIf" test, we do not get the error/red-ink: -->
+<div *ngIf="theArticleHereInDetailPage">
+    <h2>{{ theArticleHereInDetailPage.articleTitle }}</h2>
+    <div *ngIf="!editing">
+        <p>Some Times - API URL: <a bind-href="articleApiUrlWithId" target="_apiblank">{{articleApiUrlWithId}}</a>
+        </p>
+        <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
+        </p>
+        <button (click)="toggleEdit()">Let's Edit</button>
+    </div>
+    <div *ngIf="editing">
+        <p>Some Times - API URL: <input type="text" ref-myInputRef id="myInput_id" name="myInput_name" />
+        </p>
+        <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
+        </p>
+        <!--<button (click)="letUsSave(foobar)">Let's Save!</button>   undefined -->
+        <!--<button (click)="letUsSave('foobar')">Let's Save!</button>  foobar -->
+        <!--<button (click)="letUsSave(`foobar`)">Let's Save!</button>
+        "Unexpected token Lexer Error: Unexpected character [`] "  -->
+        <!--<button (click)="letUsSave($event)">Let's Save!</button>
+                MouseEvent {isTrusted...   -->
+        <!--<button (click)="letUsSave($event.target)">Let's Save!</button> whole Element <button -->
+        <!--<button (click)="letUsSave(myInputRef)">Let's Save!</button>   whole Element <input -->
+        <!-- THIS is what WORKS. -->
+        <button (click)="letUsSave(myInputRef.value)">Let's Save!</button>
+        <button on-click="letUsDelete()">Let's Delete</button>
+        <button (click)="toggleEdit()">Let's Cancel Outta Editing Here</button>
+    </div>
+</div>
+
+
+<!--
+Don't quite have this data yet here in Article-Detail...
+<h4>{{ articleHere.articleTitle }}</h4>
+<p>Some Times - API URL: <a bind-href="articleApiUrlWithId" target="_apiblank">{{articleApiUrlWithId}}</a>
+</p>
+<p>New York Times - article URL: <a bind-href="articleHere.articleUrl" target="_nytblank">{{articleHere.articleUrl}}</a>
+</p>
+-->

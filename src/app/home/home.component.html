@@ -1,8 +1,27 @@
-<!--<app-header></app-header>-->
-<h1>{{ title }}</h1>
-<h2>{{ subTitle }}</h2>
 <strong>HOME.COMPONENT</strong>
+<h2>{{ subTitle }}</h2>
+<p>
+    <i>"Some of the Times that's fit to post."</i>
+</p>
+<div>
+    A. Find an article from
+    <a href="http://www.nytimes.com" target="nyt_tab_blank">The New York Times</a>
+    to reference here.
+</div>
+<div>
+    B. Post
+    <a routerLink="/articles" routerLinkActive="active">your selected article</a>
+    on this articles reference site.
+</div>
+<div>
+    <p>New: Angular Client App for all four "CRUD" Functions:</p>
+    <ol>
+        <li>CREATE - Add Article Form on /articles page</li>
+        <li>READ - Button to List All Articles, on /articles page</li>
+        <li>UPDATE - From list, click on an Article. Edit from that page</li>
+        <li>DELETE - From list, click on an Article. Delete from that page</li>
+    </ol>
+</div>
 <p style="font-size: small;">Pointed to API at: {{ apiUrlStubInApp }}</p>
-<div><a routerLink="/articles" routerLinkActive="active">Articles List Page</a></div>
-<!--<app-footer bind-copyrightYearInFooter="copyrightYear"></app-footer>-->
+
 

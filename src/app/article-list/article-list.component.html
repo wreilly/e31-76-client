@@ -1,13 +1,9 @@
-<!--<app-header></app-header>-->
 <strong>ARTICLE-LIST.COMPONENT</strong>
 <p style="font-size: small;">Pointed to API at: {{ apiUrlStubInApp }}</p>
 <div class="row" style="border-style: dashed; border-color: #142cff;">
     <div>You clicked:</div>
     <div style="font-size: x-large">{{titleToDisplay}}</div>
 </div>
-
-
-
 
 <div class="row">
     <div class="column left">
@@ -33,7 +29,25 @@
             <button (click)="clearAllArticlesOnClick()" style="font-style: italic;"
                     (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)">(Clear Articles)</button>
         </div>
+        <h3>2. Add a New Article</h3>
 
+        <div style="border-color: green; border-style: dotted; padding: 10px;">
+            <form [formGroup]="addArticleForm" on-ngSubmit="addArticle()">
+                <label for="articleUrl_id">NYT URL: </label>
+                <input type="text" id="articleUrl_id" name="articleUrl_name" size="40" formControlName="articleUrl_formControlName" />
+                <br />
+                <label for="articleTitle_id">Headline: </label>
+                <input type="text" id="articleTitle_id" name="articleTitle_name" size="40" formControlName="articleTitle_formControlName" />
+                <br />
+                <button type="submit">Add Article</button>
+            </form>
+        </div>
+        <div  *ngIf="articleIJustCreatedBoolean">
+            <app-article
+                    [articleToSendDown]="articleIJustCreatedDisplay"
+                    [apiUrlStubInArticleAlias]="apiUrlStubInApp"
+                    on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
+        </div>
     </div>
     <div class="column middle">
         <h3>Articles Listed from Form/Button</h3>
@@ -56,23 +70,3 @@
                 on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
     </div>
 </div>
-<h3>2. Add a New Article</h3>
-
-<div style="border-color: green; border-style: dotted; padding: 10px;">
-    <form [formGroup]="addArticleForm" on-ngSubmit="addArticle()">
-        <label for="articleUrl_id">NYT URL: </label>
-        <input type="text" id="articleUrl_id" name="articleUrl_name" size="40" formControlName="articleUrl_formControlName" />
-        <br />
-        <label for="articleTitle_id">Headline: </label>
-        <input type="text" id="articleTitle_id" name="articleTitle_name" size="40" formControlName="articleTitle_formControlName" />
-        <br />
-        <button type="submit">Add Article</button>
-    </form>
-</div>
-<div  *ngIf="articleIJustCreatedBoolean">
-    <app-article
-            [articleToSendDown]="articleIJustCreatedDisplay"
-            [apiUrlStubInArticleAlias]="apiUrlStubInApp"
-            on-myEventEmitterSendTitleAlias="runDisplayTitle($event)"></app-article>
-</div>
-

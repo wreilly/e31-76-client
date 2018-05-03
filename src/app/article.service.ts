@@ -21,6 +21,8 @@ export class ArticleService {
 
    listFirstNArticles(howManyToList)
 
+   getArticle(id)
+
    createArticle(article)
 
    */
@@ -55,6 +57,13 @@ export class ArticleService {
           return this._serviceHttp.get(this.apiUrlStubInService + 'first-n?' + nameValuePairNameThing + '=' + howManyToList);
 
   }
+
+
+  // GET One Article, by ID
+  getArticle(idPassedIn) {
+    return this._serviceHttp.get(this.apiUrlStubInService + '/' + idPassedIn);
+  }
+
 
   createArticle(articleToCreatePassedIn) {
 
