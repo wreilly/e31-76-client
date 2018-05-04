@@ -1,5 +1,5 @@
 <strong>ARTICLE-DETAIL.COMPONENT</strong>
-<h3>Article Detail Page</h3>
+
 
 <!-- Interesting.
 If I do not have the "*ngIf" test below, then via console I see that the app does hit an error:
@@ -15,24 +15,47 @@ A. I see in Instructor Code that he too uses this "*ngIf" test, to ensure the pr
 https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=src%2Fapp%2Fphotodetail%2Fphotodetail.component.html
 <div *ngIf="photo"> ...
 -->
-<!--
-<h4>{{ theArticleHereInDetailPage.articleTitle }}</h4>
--->
 <!--  With this "*ngIf" test, we do not get the error/red-ink: -->
 <div *ngIf="theArticleHereInDetailPage">
-    <h2>{{ theArticleHereInDetailPage.articleTitle }}</h2>
     <div *ngIf="!editing">
+        <h3>Article Detail Page</h3>
+        <h2><a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{ theArticleHereInDetailPage.articleTitle }}</a></h2>
         <p>Some Times - API URL: <a bind-href="articleApiUrlWithId" target="_apiblank">{{articleApiUrlWithId}}</a>
         </p>
-        <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
+        <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
         </p>
-        <button (click)="toggleEdit()">Let's Edit</button>
+        <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
+        <button (click)="toggleEdit()">Let's Edit (or Delete!)</button>
     </div>
     <div *ngIf="editing">
-        <p>Some Times - API URL: <input type="text" ref-myInputRef id="myInput_id" name="myInput_name" />
+        <h3>Article EDIT or DELETE Page</h3>
+
+        <!--
+        https://blog.thoughtram.io/angular/2016/10/13/two-way-data-binding-in-angular-2.html
+        [(ngModel)]
+        syntactic sugar for:
+        bind-value="theArticleHereInDetailPage.articleTitle"
+        on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
+        [value]=...
+        (input)=...
+        -->
+
+        <h2>{{ theArticleHereInDetailPage.articleTitle }}</h2>
+        <p>Edit the Headline: <input
+                type="text"
+                ref-articleTitle_ref
+                id="articleTitle_id"
+                name="articleTitle_name"
+                size="60"
+                bind-value="theArticleHereInDetailPage.articleTitle"
+                on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
+        />
         </p>
         <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
         </p>
+        <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
+        </p>
+        <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
         <!--<button (click)="letUsSave(foobar)">Let's Save!</button>   undefined -->
         <!--<button (click)="letUsSave('foobar')">Let's Save!</button>  foobar -->
         <!--<button (click)="letUsSave(`foobar`)">Let's Save!</button>
@@ -42,7 +65,7 @@ https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=s
         <!--<button (click)="letUsSave($event.target)">Let's Save!</button> whole Element <button -->
         <!--<button (click)="letUsSave(myInputRef)">Let's Save!</button>   whole Element <input -->
         <!-- THIS is what WORKS. -->
-        <button (click)="letUsSave(myInputRef.value)">Let's Save!</button>
+        <button (click)="letUsSave(articleTitle_ref.value)">Let's Save!</button>
         <button on-click="letUsDelete()">Let's Delete</button>
         <button (click)="toggleEdit()">Let's Cancel Outta Editing Here</button>
     </div>

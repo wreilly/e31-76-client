@@ -50,3 +50,7 @@ https://www.w3schools.com/howto/howto_css_two_columns.asp
     display: table;
     clear: both;
 }
+
+.tiny {
+    font-size: x-small;
+}
