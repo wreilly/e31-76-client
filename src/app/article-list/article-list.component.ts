@@ -88,10 +88,21 @@ export class ArticleListComponent {
          */
         event.preventDefault();
 
+        /* UPDATE
+        Sheesh bud, just do it IN-LINE over in the template. Sheesh.
+
+        E.g.,
+         <button (click)="clearAllArticlesOnClick()" style="font-style: italic;"
+         (mousedown)="$event.preventDefault()">(Clear Articles)</button>
+
+         */
     }
 
     public addArticle() {
         console.log('we are in addArticle, and whoseiwhatsis is: this.addArticleForm.value ', this.addArticleForm.value);
+        /* Yeah. V. nice.
+         {articleUrl_formControlName: "http://nytimes.com", articleTitle_formControlName: "We Wrote This Yesterday. (So long as Today is Tomorrow.)"}
+         */
 
         const articleToCreate = {
             articleUrl_name: this.addArticleForm.value.articleUrl_formControlName,
@@ -113,7 +124,9 @@ export class ArticleListComponent {
                     console.log('whatIJustCreated ', whatIJustCreated);
                     this.articleIJustCreatedDisplay = whatIJustCreated;
                     this.articleIJustCreatedBoolean = true;
-
+                    // https://stackoverflow.com/questions/36655922/resetting-a-form-in-angular-2-after-submit
+                    // Hmm. Seems to say resetForm() should be available o well.
+                    this.addArticleForm.reset();
                 }
             );
     }

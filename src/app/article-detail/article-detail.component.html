@@ -25,12 +25,17 @@ https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=s
         <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
         </p>
         <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
-        <button (click)="toggleEdit()">Let's Edit (or Delete!)</button>
+        <button (click)="letUsEdit()">Let's Edit (or Delete!)</button>
     </div>
     <div *ngIf="editing">
         <h3>Article EDIT or DELETE Page</h3>
 
-        <!--
+        <!-- This 2-way binding did work...
+        ... but it doesn't get us what we want,
+        viz. user submitted data change
+        to send to the database.
+        On to the <form>
+
         https://blog.thoughtram.io/angular/2016/10/13/two-way-data-binding-in-angular-2.html
         [(ngModel)]
         syntactic sugar for:
@@ -38,10 +43,9 @@ https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=s
         on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
         [value]=...
         (input)=...
-        -->
 
         <h2>{{ theArticleHereInDetailPage.articleTitle }}</h2>
-        <p>Edit the Headline: <input
+        <p>Edit the Headline w. 2-Way Binding: <input
                 type="text"
                 ref-articleTitle_ref
                 id="articleTitle_id"
@@ -51,11 +55,8 @@ https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=s
                 on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
         />
         </p>
-        <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
-        </p>
-        <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
-        </p>
-        <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
+        ...
+        -->
         <!--<button (click)="letUsSave(foobar)">Let's Save!</button>   undefined -->
         <!--<button (click)="letUsSave('foobar')">Let's Save!</button>  foobar -->
         <!--<button (click)="letUsSave(`foobar`)">Let's Save!</button>
@@ -64,10 +65,45 @@ https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=s
                 MouseEvent {isTrusted...   -->
         <!--<button (click)="letUsSave($event.target)">Let's Save!</button> whole Element <button -->
         <!--<button (click)="letUsSave(myInputRef)">Let's Save!</button>   whole Element <input -->
-        <!-- THIS is what WORKS. -->
+        <!-- THIS is what WORKS.
         <button (click)="letUsSave(articleTitle_ref.value)">Let's Save!</button>
+        -->
+
+        <h2>{{ theArticleHereInDetailPage.articleTitle }}</h2>
+
+        <!-- TEMPLATE-DRIVEN ANGULAR FORM y not
+https://blog.thoughtram.io/angular/2016/03/21/template-driven-forms-in-angular-2.html#submitting-a-form-and-accessing-its-value
+        -->
+        <form ref-myArticleEditForm_ref="ngForm" on-ngSubmit="letUsSave(myArticleEditForm_ref.value)">
+            <p>Edit the Headline w. TEMPLATE-DRIVEN Form: <input
+                    type="text"
+                    ref-articleTitle_ref
+                    id="articleTitle_id"
+                    name="articleTitle_name"
+                    size="60"
+                    bind-ngModel="theArticleHereInDetailPage.articleTitle"
+                    on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
+            />
+
+<!-- Form "Take 1" << We are NOT doing.
+        <p>Edit the Headline w. FormControl:
+                <input type="text" [formControl]="articleTitleInputFormControl"
+                />
+            </p>
+-->
+            <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
+            </p>
+            <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
+            </p>
+            <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
+            <button type="submit">Let's Save!</button>
+        </form>
+
+        <hr />
+
+        <!-- Delete is simpler. No need to pass anything. Component already "knows" its own ID etc. -->
         <button on-click="letUsDelete()">Let's Delete</button>
-        <button (click)="toggleEdit()">Let's Cancel Outta Editing Here</button>
+        <button (click)="letUsCancel()">Let's Cancel Outta Editing Here</button>
     </div>
 </div>
 

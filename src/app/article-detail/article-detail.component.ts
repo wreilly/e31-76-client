@@ -2,6 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { ArticleService } from '../article.service';
 
+// Take 1: NAH. Not for us: Just FormControl, on one <input> (for headline) This is really for SEARCH.
+// https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html#forms-with-a-single-control
+// import { FormControl } from '@angular/forms';
+// Take 2: Template-Driven
+// NO NEED for additional imports viz. Form. Just in app.module.ts where we get { FormsModule }
+
 // https://www.tektutorialshub.com/angular-passing-parameters-to-route/
 // https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=src%2Fapp%2Fphotodetail%2Fphotodetail.component.ts
 
@@ -18,6 +24,8 @@ export class ArticleDetailComponent {
     theArticleIdHereInDetailPage;
     theArticleHereInDetailPage;
 
+    articleTitleCachedBeforeEdit;
+
     editing: boolean = false;
 
     // Passed in, essentially, from ArticleService
@@ -29,6 +37,10 @@ export class ArticleDetailComponent {
 
     subscriptionForId; // reference to the Subscription we create, so that we can also Destroy it
 
+    // FORM STUFF
+    // "Take 1" << We are NOT doing
+//    articleTitleInputFormControl = new FormControl();
+
     constructor(
         private _myActivatedRoute: ActivatedRoute,
         private _myArticleService: ArticleService
@@ -36,8 +48,20 @@ export class ArticleDetailComponent {
 
     ngOnInit() {
         console.log('ngOnInit this._myArticleService.apiUrlStubInService ', this._myArticleService.apiUrlStubInService); // undefined. hmm.
+
         this.apiUrlStubInThisComponent = this._myArticleService.apiUrlStubInService;
+
         this.getArticle();
+
+/* Form "Take 1" We are NOT doing/
+        this.articleTitleInputFormControl.valueChanges
+            .subscribe(
+                (valueSeen) => {
+                    // Value seen in <input> for headline
+                    console.log('wow. OnInit. headline valueChanges: ', valueSeen);
+                }
+            )
+*/
     }
 
     getArticle(): void {
@@ -84,18 +108,95 @@ export class ArticleDetailComponent {
     } // /getArticle()
 
 
+
+    letUsEdit() {
+        // Grab title (headline) before edit
+        // Q. Why?
+        // A. If they hit Cancel, not Save, we want to restore it.
+        // Further A.: Recall, with 2-way data binding, we are letting them
+        // (for fun) be able to SEE their edit live on the page.
+        // But since that is changing the value in the actual property,
+        // if they do hit Cancel we need to be able to restore.
+        this.articleTitleCachedBeforeEdit = this.theArticleHereInDetailPage.articleTitle
+        this.toggleEdit()
+    }
+
+    letUsCancel() {
+        // Restore any edit they may have done in the 2-way binding!
+        if (this.theArticleHereInDetailPage.articleTitle !== this.articleTitleCachedBeforeEdit) {
+            if (confirm('Are you sure you wish to cancel your editing?')) {
+                this.theArticleHereInDetailPage.articleTitle = this.articleTitleCachedBeforeEdit // Put cached value back on
+                this.toggleEdit()
+            } else {
+                // User did do some editing, clicked Cancel, then said "No" to leaving, abandoning edits. Wants to KEEP edits, and keep on editing. hmm.
+                // just return to where it was ? hmm
+                console.log('else nuttin ');
+            }
+        } else {
+          // No editing changes detected. They clicked Cancel. Just proceed to cancel out. Leave editing mode.
+           this.articleTitleCachedBeforeEdit = ''; // empty out y not
+           this.toggleEdit()
+        }
+    }
+
     toggleEdit() {
         console.log('letUsEdit ', this.editing)
         this.editing = this.editing ? false : true; // toggle. if true, make false. And vice versa
     }
 
-    letUsSave(whatIsPassedIn) {
-        console.log('we are saving ... theArticleHereInDetailPage._id ', this.theArticleHereInDetailPage._id)
-        console.log('whatIsPassedIn ', whatIsPassedIn)
+
+    letUsSave(whatIsPassedIn: any): void {
+/* This only references the property here on the component.
+         console.log('we are saving ... theArticleHereInDetailPage._id ', this.theArticleHereInDetailPage._id)
+*/
+// We want the object passed from the form, to save the edits
+        console.log('edit/update time - whatIsPassedIn ', whatIsPassedIn) // YES gets edit. OK
+
+        // 1. Just whamma-jamma newly edited value onto the component itself:
+        this.theArticleHereInDetailPage.articleTitle = whatIsPassedIn.articleTitle_name
+        console.log('this.theArticleHereInDetailPage.articleTitle ', this.theArticleHereInDetailPage.articleTitle ); // Yes. Edited title.
+
+        // 2. Time to go to the database to update it
+        console.log('About to use service. this.theArticleIdHereInDetailPage is ', this.theArticleIdHereInDetailPage) // Yes. Correct ID.
+         this._myArticleService.updateArticle(this.theArticleIdHereInDetailPage, whatIsPassedIn)
+            .subscribe(
+                (fromDatabaseEditedArticle) => {
+                    // data
+                    console.log('whoa. fromDatabaseEditedArticle ', fromDatabaseEditedArticle);
+                    /*
+                    Remember, after PUT or POST, good
+                    practice to move the user OFF
+                    the form page. Prevents submitting
+                    twice & Etc.
+                    Though whole page/app reload is kinda brutal.
+                     */
+
+                    // location.replace('/') // works, but also a reload, and takes you to Home, not so good
+                    location.reload() // okay we'll go with it.
+
+                }
+            )
+
     }
 
     letUsDelete() {
-        console.log('we are deleting ...theArticleHereInDetailPage._id ', this.theArticleHereInDetailPage._id)
+        if (confirm('All right, you sure you wish to delete this article?')) {
+            console.log('we are deleting ...theArticleHereInDetailPage._id ', this.theArticleHereInDetailPage._id)
+            this._myArticleService.deleteArticle(this.theArticleIdHereInDetailPage)
+                .subscribe(
+                    (articleJustDeleted) => {
+                        // data back
+                        console.log('whoa. articleJustDeleted ', articleJustDeleted);
+/*
+                        location.reload(); // << No. Tries to bring up page for article you just deleted! D'oh!
+*/
+                        location.replace('/articles') // Better
+                    }
+                )
+
+        } else {
+            // do nuttin'
+        }
     }
 
     ngOnDestroy() {

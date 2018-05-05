@@ -34,6 +34,9 @@ export class ArticleComponent implements OnInit {
 
   preventDefaultOnMouseDownButtonHighlightRemains(event) {
     event.preventDefault(); // We prevent the button highlight (in Chrome)
+    /* UPDATE
+    Just do it IN-LINE in the Component HTML. Heck.
+     */
   }
 
 }

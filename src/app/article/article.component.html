@@ -17,6 +17,11 @@ routerLink vs. [routerLink]
 </p>
 -->
 <button on-click="sendTitleToParent()"
+        (mousedown)="$event.preventDefault()"
+>Click to Emit!</button>
+<!--
+<button on-click="sendTitleToParent()"
         (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)"
 >Click to Emit!</button>
+-->
 <hr>

@@ -25,6 +25,10 @@ export class ArticleService {
 
    createArticle(article)
 
+   updateArticle(id, article)
+
+   deleteArticle(id)
+
    */
   /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 
@@ -70,6 +74,14 @@ export class ArticleService {
     return this._serviceHttp.post(this.apiUrlStubInService,
       articleToCreatePassedIn
     );
+  }
+
+  updateArticle(idPassedIn, editedArticle) {
+    return this._serviceHttp.put(this.apiUrlStubInService + '/' + idPassedIn, editedArticle)
+  }
+
+  deleteArticle(idPassedIn) {
+    return this._serviceHttp.delete(this.apiUrlStubInService + '/' + idPassedIn)
   }
 
 }

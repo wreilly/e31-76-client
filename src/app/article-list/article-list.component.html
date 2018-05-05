@@ -27,7 +27,7 @@
             <br />
             <br />
             <button (click)="clearAllArticlesOnClick()" style="font-style: italic;"
-                    (mousedown)="preventDefaultOnMouseDownButtonHighlightRemains($event)">(Clear Articles)</button>
+                    (mousedown)="$event.preventDefault()">(Clear Articles)</button>
         </div>
         <h3>2. Add a New Article</h3>
 
