@@ -1,15 +1,15 @@
 <div>
 <hr />
-  <em>(Routing TODO ...)</em> &nbsp; &nbsp; &nbsp;  <a routerLink="/" routerLinkActive="active">Home</a> | <a routerLink="/articles" routerLinkActive="active">Articles</a> || Week {{ weekNumber }} | FINAL Assignment {{ assignmentNumber }} TEST/PREP/DEV || Link to <a href="http://0.0.0.0:8089/" target="_blank">Assignment "75" - REST API</a> (LOCAL)
+  &nbsp; &nbsp; &nbsp;  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> | <a routerLink="/articles" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Articles</a> || Week {{ weekNumber }} | FINAL Assignment {{ assignmentNumber }} TEST/PREP/DEV || Link to <a href="{{expressAppUrlHereInHeader}}" target="_blank">Assignment "75" - Express App (& REST API)</a>
 <hr />
-<div class="banner">
+<div class="banner-angular">
   <p>FINAL Assignment 7 - PREP/TEST/DEV</p>
-  <p>CRUD - TODO - All via Angular client, not Express server</p>
+  <p><strong>CRUD</strong> - All via <strong>Angular</strong> client (not Express server)</p>
   <ul>
     <li>CREATE - Add Article Form on Articles page</li>
     <li>READ - Button to Display All, or "First n" Articles, on Articles page</li>
-    <li>UPDATE - <em>TODO ...</em></li>
-    <li>DELETE - <em>TODO ...</em></li>
+    <li>UPDATE - From list, click on an Article. Edit from that page.</li>
+    <li>DELETE - From list, click on an Article. Delete from that page.</li>
     </ul>
     <hr>
   </div>

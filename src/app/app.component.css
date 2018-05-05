@@ -1,4 +1,17 @@
+/*
+YO! Go see /SRC/STYLES.CSS instead. Hey.
+*/
 
+/* RouterLinkActive ~05:02...
+https://www.youtube.com/watch?v=T7s4Ie5kdyQ
+ */
+a {
+    color: black;
+}
+
+a.active {
+    color: red;
+}
 
 
 /*

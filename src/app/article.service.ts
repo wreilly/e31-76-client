@@ -3,11 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
 @Injectable()
+/* No. See comment at bottom
+class ArticleService {
+*/
 export class ArticleService {
 
   apiUrlStubInService = environment.apiUrlStubInEnvironment;
   /*
    http://0.0.0.0:8089/api/v1/articles/
+   http://192.168.1.126:8089/api/v1/articles/
    http://104.236.198.117:8089/api/v1/articles/
    */
 
@@ -86,4 +90,9 @@ export class ArticleService {
 
 }
 
-
+/* This does not work. Ah well.
+ https://stackoverflow.com/questions/42332456/an-interface-cannot-be-exported-in-an-angular-2-module
+ */
+/*
+ module.exports = ArticleService;
+*/
