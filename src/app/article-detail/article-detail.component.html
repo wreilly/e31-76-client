@@ -69,13 +69,16 @@ https://blog.thoughtram.io/angular/2016/03/21/template-driven-forms-in-angular-2
         <hr />
         <p>Angular REACTIVE-MODEL-DRIVEN FORM</p>
         <div style="border-color: green; border-style: dotted; padding: 10px;">
-            <form [formGroup]="myArticleEditFormGroup" on-ngSubmit="letUsSaveReactive()">
+            <form [formGroup]="myArticleEditFormGroup" on-ngSubmit="letUsSaveReactive(myArticleEditFormGroup)">
                 <input
                         type="text"
                         id="articleTitle_id"
                         name="articleTitle_name"
                         formControlName="articleTitle_formControlName"
+                        bind-ngModel="theArticleHereInDetailPage.articleTitle"
+                        on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
                 >
+      <!-- Yes, works:  [(ngModel)]="theArticleHereInDetailPage.articleTitle" -->
                 <button type="submit">Let's Save!</button>
             </form>
 
