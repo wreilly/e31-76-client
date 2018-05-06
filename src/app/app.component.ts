@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Some Times';
   subTitle = 'Newspaper Articles Reference Site - Angular CRUD - with REST API';
+  copyrightYear = '2018';
 
   constructor() { }
 

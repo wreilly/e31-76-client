@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ArticleService } from '../article.service';
+import { ArticleService, apiUrlStubInService } from '../article.service';
 
 
 @Component({
@@ -29,7 +29,11 @@ export class ArticleListComponent {
 
     ngOnInit() {
 
+/* WORKED. When apiUrlStub etc. was INSIDE the exported class:
         this.apiUrlStubInApp = this._myArticleService.apiUrlStubInService;
+*/
+// Now (for heck of it and/or learning), trying to import and use as mere const:
+        this.apiUrlStubInApp = apiUrlStubInService
 
         // this.getAllArticles();
         this._myArticleService.listArticles().subscribe(

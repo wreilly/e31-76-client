@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { ArticleService } from '../article.service';
+import { ArticleService, apiUrlStubInService } from '../article.service';
 
 // Take 1: NAH. Not for us: Just FormControl, on one <input> (for headline) This is really for SEARCH.
 // https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html#forms-with-a-single-control
@@ -29,7 +29,7 @@ export class ArticleDetailComponent {
 
     editing: boolean = false;
 
-    // Passed in, essentially, from ArticleService
+    // Passed in, essentially, ("imported from") ArticleService
     apiUrlStubInThisComponent;
 
     // Will be filled out (with ID) inside getArticle()
@@ -51,9 +51,13 @@ export class ArticleDetailComponent {
     ) {  }
 
     ngOnInit() {
-        console.log('ngOnInit this._myArticleService.apiUrlStubInService ', this._myArticleService.apiUrlStubInService); // undefined. hmm.
+//        console.log('ngOnInit this._myArticleService.apiUrlStubInService ', this._myArticleService.apiUrlStubInService); // undefined. hmm.
 
+/* WORKED when apiUrl etc. was INSIDE already-getting-exported class
         this.apiUrlStubInThisComponent = this._myArticleService.apiUrlStubInService;
+*/
+// Now as its own export const:
+        this.apiUrlStubInThisComponent = apiUrlStubInService;
 
         this.getArticle();
 

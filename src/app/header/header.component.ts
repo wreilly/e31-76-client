@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 // import { apiUrlStubInService } from '../article.service'
 
 // We bring in whole Service, just to get one property out of it: enviroment-specific URL(stub)
-import { ArticleService } from '../article.service'
+import { ArticleService, apiUrlStubInService } from '../article.service'
 
 @Component({
   selector: 'app-header',
@@ -20,7 +20,10 @@ export class HeaderComponent {
 
   constructor(private _myArticleService: ArticleService) { }
 
+/*
   apiUrlStubHereInHeader = this._myArticleService.apiUrlStubInService;
+*/
+  apiUrlStubHereInHeader = apiUrlStubInService;
   // http://192.168.1.126:8089/api/v1/articles/
   // http://192.168.1.126:8089/ << What we want.
   // We'll find "api/v1" for the index of where to slice to. Cheers.

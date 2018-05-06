@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "my-fake-comment-in-json": "this start line with host 0.0.0.0 is what makes the client app work okay from a 2nd computer on the subnet in my house e.g. 192.168.1.126:4206 hooray for that. See Also /environments/environment.ts re: apiUrlStub...",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
     "test": "ng test",
