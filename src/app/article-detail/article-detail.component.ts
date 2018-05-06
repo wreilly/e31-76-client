@@ -5,13 +5,14 @@ import { ArticleService } from '../article.service';
 // Take 1: NAH. Not for us: Just FormControl, on one <input> (for headline) This is really for SEARCH.
 // https://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html#forms-with-a-single-control
 // import { FormControl } from '@angular/forms';
+
 // Take 2: Template-Driven
 // NO NEED for additional imports viz. Form. Just in app.module.ts where we get { FormsModule }
-
 // https://www.tektutorialshub.com/angular-passing-parameters-to-route/
 // https://stackblitz.com/github/Harvard-DCE-CSCIE3/angular-routing-and-CRUD?file=src%2Fapp%2Fphotodetail%2Fphotodetail.component.ts
 
-
+// Take 3: Adding in REACTIVE-MODEL-DRIVEN Form
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
     selector: 'app-article-detail',
@@ -41,6 +42,9 @@ export class ArticleDetailComponent {
     // "Take 1" << We are NOT doing
 //    articleTitleInputFormControl = new FormControl();
 
+    // Take 3
+    myArticleEditFormGroup: FormGroup;
+
     constructor(
         private _myActivatedRoute: ActivatedRoute,
         private _myArticleService: ArticleService
@@ -62,6 +66,12 @@ export class ArticleDetailComponent {
                 }
             )
 */
+        // TAKE 3 w. Forms
+        this.myArticleEditFormGroup = new FormGroup({
+            'articleTitle_formControlName': new FormControl(null, [Validators.required, Validators.minLength(4)])
+        });
+        // Q. ?? this.theArticleHereInDetailPage.articleTitle ?? instead of null?
+        // A. No. null appears correct. Here in OnInit it's undefined, to try to get the title etc.
     }
 
     getArticle(): void {
@@ -173,9 +183,21 @@ export class ArticleDetailComponent {
 
                     // location.replace('/') // works, but also a reload, and takes you to Home, not so good
                     location.reload() // okay we'll go with it.
-
                 }
             )
+    }
+
+    letUsSaveReactive() {
+        /* 20180505_1552 TODO
+        Wow. This is NOT easy, simple, straightforward.
+        Jesus Christ.
+        Better see:
+        - https://toddmotto.com/angular-2-form-controls-patch-value-set-value
+        - https://stackoverflow.com/questions/45366955/same-form-for-creating-and-editing-data-angular4
+        - https://github.com/PeterKassenaar/ng2-form-edit/blob/master/app/edit/city.edit.component.ts
+         */
+        // Does not need param passed in
+        console.log('this.myArticleEditFormGroup.value is ', this.myArticleEditFormGroup.value)
 
     }
 

@@ -1,6 +1,6 @@
 <strong>ARTICLE-LIST.COMPONENT</strong>
 <p style="font-size: small;">Pointed to API at: {{ apiUrlStubInApp }}</p>
-<div class="row" style="border-style: dashed; border-color: #142cff;">
+<div class="row" style="border-style: dashed; border-color: darkred">
     <div>You clicked:</div>
     <div style="font-size: x-large">{{titleToDisplay}}</div>
 </div>
@@ -30,6 +30,7 @@
                     (mousedown)="$event.preventDefault()">(Clear Articles)</button>
         </div>
         <h3>2. Add a New Article</h3>
+        <p>Angular REACTIVE-MODEL-DRIVEN FORM</p>
 
         <div style="border-color: green; border-style: dotted; padding: 10px;">
             <form [formGroup]="addArticleForm" on-ngSubmit="addArticle()">
