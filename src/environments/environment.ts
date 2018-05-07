@@ -14,9 +14,9 @@ export const environment = {
   // USE ANYWHERE ... (E.g., on Harvard campus, in some coffee shop, etc.)
   // Also yes CAN be used "at home" simply.
   // Runs on local machine only.
-/*
+/* */
   apiUrlStubInEnvironment: 'http://0.0.0.0:8089/api/v1/articles/' // << Don't forget final '/' !
-*/
+
 
   /* *** -2- ****** 192.168.1.126  ************* */
   // SUBNET "LOCAL" 192.168.1.126 << sometimes changes to .125
@@ -26,9 +26,9 @@ export const environment = {
   // USE AT HOME (100 Gore) (if/when you wish to use another computer to see app in browser)
   // Do NOT use outside the home, off of the SubNet. App may run but API part won't work!
   // See Also note below re: PACKAGE.JSON
-/* */
+/*
   apiUrlStubInEnvironment: 'http://192.168.1.126:8089/api/v1/articles/' // << Don't forget final '/' !
-
+*/
 
 
 

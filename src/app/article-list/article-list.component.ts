@@ -102,24 +102,49 @@ export class ArticleListComponent {
          */
     }
 
-    public addArticle() {
-        console.log('we are in addArticle, and whoseiwhatsis is: this.addArticleForm.value ', this.addArticleForm.value);
-        /* Yeah. V. nice.
-         {articleUrl_formControlName: "http://nytimes.com", articleTitle_formControlName: "We Wrote This Yesterday. (So long as Today is Tomorrow.)"}
+    public addArticle(addArticleFormTemplate_refPassedIn) {
+        console.log('addArticle - now OverLoading: both REACTIVE and TEMPLATE')
+        // N.B. Only the TEMPLATE mode needs to pass in a parameter.
+
+        console.log('addArticleFormTemplate_refPassedIn: (TEMPLATE only) ', addArticleFormTemplate_refPassedIn);
+        /* Yes:
+         {articleUrl_name: "http://nytimes.com", articleTitle_name: "TEMPLATE We Wrote This Yesterday. (So long as Today is Tomorrow.)"}
          */
 
-        const articleToCreate = {
-            articleUrl_name: this.addArticleForm.value.articleUrl_formControlName,
-            articleTitle_name: this.addArticleForm.value.articleTitle_formControlName
+        console.log('we are in addArticle - this.addArticleForm.value (REACT only) ', this.addArticleForm.value);
+        /* Yeah. V. nice.
+         {articleUrl_formControlName: "http://nytimes.com", articleTitle_formControlName: "REACTIVE We Wrote This Yesterday. (So long as Today is Tomorrow.)"}
+         */
+
+        let articleToCreate = {
+            articleUrl_name: '',
+            articleTitle_name: ''
         };
+
+        if (addArticleFormTemplate_refPassedIn) {
+            // TEMPLATE-DRIVEN
+            articleToCreate = {
+                articleUrl_name: addArticleFormTemplate_refPassedIn.articleUrl_name,
+                articleTitle_name: addArticleFormTemplate_refPassedIn.articleTitle_name
+            };
+        } else {
+            // REACTIVE-MODEL-DRIVEN
+            articleToCreate = {
+                articleUrl_name: this.addArticleForm.value.articleUrl_formControlName,
+                articleTitle_name: this.addArticleForm.value.articleTitle_formControlName
+            };
+        }
+
 
 
         /* 2018-04-22 "C" in CRUD time:
-         From here in Component TypeScript,
+
+         From here in the Component's TypeScript,
          we invoke the Article Service,
-         to use its Angular HTTP (like an Axios),
+         to use its Angular HTTP (like the Axios we used in the Express App),
          to hit the REST API endpoint:
-         POST to http://0.0.0.0:8089/articles
+
+           POST to http://0.0.0.0:8089/articles
          */
         this._myArticleService.createArticle(articleToCreate)
             .subscribe(
@@ -128,6 +153,41 @@ export class ArticleListComponent {
                     console.log('whatIJustCreated ', whatIJustCreated);
                     this.articleIJustCreatedDisplay = whatIJustCreated;
                     this.articleIJustCreatedBoolean = true;
+
+                    // New: Let's update the Articles array right here, right now.
+                    // Also: The user-selected "How Many Articles" array.
+                    // On create here, I do *not* refresh the page,
+                    //  because I wanted to immediately display the just-created article.
+                    //  Till now I had not thought to do this array-pushing.
+                    //  Instead, the user had to refresh or perhaps navigate back
+                    //  to this page, to see full list with newly added item.
+                    //  This is better.
+                    this.articles.push(this.articleIJustCreatedDisplay)
+                    if (this.articlesHowMany.length) {
+                        // If the user has NOT clicked on "First n" Articles,
+                        //  we'll skip adding the just-created Article to that
+                        //  (non-existent) list on the page.
+                        //
+                        // That is, only if the user *HAS* already asked for some number
+                        // of Articles to appear will we add the
+                        // just-created Article to that displayed list:
+                        this.articlesHowMany.push(this.articleIJustCreatedDisplay)
+                        /*
+                         One tiny side-effect (totally benign, acceptable, and prob. desired):
+                         re: "articlesHowMany":
+                         - If user says "Display first 2 articles", and then adds one article...
+                         - The "First n" articles list of 2 will be joined by the new one, in the
+                         next spot (3rd spot)
+                         (whereas it of course belongs ultimately in last spot)
+                         - That of course goes away next time they click on asking for any other
+                         number of articles to be displayed.
+                         (The newly added one will correctly be in the last spot.)
+                         */
+                    } else {
+                        // do nothing. User had *not* clicked on "Display First n".
+                        // We do not add the just-created Article to a sort of "non-list"
+                    }
+
                     // https://stackoverflow.com/questions/36655922/resetting-a-form-in-angular-2-after-submit
                     // Hmm. Seems to say resetForm() should be available o well.
                     this.addArticleForm.reset();

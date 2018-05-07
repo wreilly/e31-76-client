@@ -30,8 +30,20 @@
                     (mousedown)="$event.preventDefault()">(Clear Articles)</button>
         </div>
         <h3>2. Add a New Article</h3>
-        <p>Angular REACTIVE-MODEL-DRIVEN FORM</p>
-
+        <p>2.A. Angular TEMPLATE-DRIVEN FORM</p>
+        <div style="border-color: blue; border-style: dashed; padding: 10px;">
+            <form ref-addArticleFormTemplate_ref="ngForm" on-ngSubmit="addArticle(addArticleFormTemplate_ref.value)">
+                <label for="articleUrl_id_template">NYT URL: </label>
+                <input type="text" id="articleUrl_id_template" name="articleUrl_name" size="40" ngModel />
+                <br />
+                <label for="articleTitle_id_template">Headline: </label>
+                <input type="text" id="articleTitle_id_template" name="articleTitle_name" size="40" ngModel />
+                <br />
+                <button type="submit">Add Article</button>
+            </form>
+        </div>
+        <hr />
+        <p>2.B. Angular REACTIVE-MODEL-DRIVEN FORM</p>
         <div style="border-color: green; border-style: dotted; padding: 10px;">
             <form [formGroup]="addArticleForm" on-ngSubmit="addArticle()">
                 <label for="articleUrl_id">NYT URL: </label>
@@ -43,7 +55,9 @@
                 <button type="submit">Add Article</button>
             </form>
         </div>
+        <hr />
         <div  *ngIf="articleIJustCreatedBoolean">
+            <h4>Article You Just Added</h4>
             <app-article
                     [articleToSendDown]="articleIJustCreatedDisplay"
                     [apiUrlStubInArticleAlias]="apiUrlStubInApp"

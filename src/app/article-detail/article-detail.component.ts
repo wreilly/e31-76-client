@@ -178,6 +178,8 @@ export class ArticleDetailComponent {
         /* From the HTML:
          <form ref-myArticleEditForm_ref="ngForm" on-ngSubmit="letUsSave(myArticleEditForm_ref.value)">
          */
+        // Note: ngSubmit takes care of the event.preventDefault() for you.
+        //      (Had we used simply 'submit', we'd have had to do the preventDefault() here.)
 
 /* This only references the property here on the component.
          console.log('we are saving ... theArticleHereInDetailPage._id ', this.theArticleHereInDetailPage._id)
@@ -229,6 +231,9 @@ export class ArticleDetailComponent {
         /* From the HTML:
          <form [formGroup]="myArticleEditFormGroup" on-ngSubmit="letUsSaveReactive(myArticleEditFormGroup)">
          */
+        // Note: (As noted above) - ngSubmit takes care of the event.preventDefault() for you.
+        //      (Had we used simply 'submit', we'd have had to do the preventDefault() here.)
+
 
         /*
             letUsSaveReactive({ value, valid }) { ...
