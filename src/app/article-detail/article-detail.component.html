@@ -6,6 +6,12 @@
         <h2><a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{ theArticleHereInDetailPage.articleTitle }}</a></h2>
         <p>Some Times - API URL: <a bind-href="articleApiUrlWithId" target="_apiblank">{{articleApiUrlWithId}}</a>
         </p>
+        <div *ngFor="let onePic of theArticlePhotosArrayHereInDetailPage">
+            <img src="{{imgUrlStubInThisComponent}}static/img/{{onePic}}" alt="" width="400"  />
+            <br />
+            <div class="tiny">{{ onePic }}</div>
+            <br />
+        </div>
         <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
         </p>
         <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
@@ -57,11 +63,11 @@ https://blog.thoughtram.io/angular/2016/03/21/template-driven-forms-in-angular-2
                     bind-ngModel="theArticleHereInDetailPage.articleTitle"
                     on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
             />
+            </p>
 
-            <p>New York Times - article URL: <a bind-href="theArticleHereInDetailPage.articleUrl" target="_nytblank">{{theArticleHereInDetailPage.articleUrl}}</a>
+            <p>New York Times - article URL: {{theArticleHereInDetailPage.articleUrl}}
             </p>
-            <p class="tiny">{{theArticleHereInDetailPage.articleUrl}}
-            </p>
+            <p>Some Times - API URL: {{articleApiUrlWithId}}</p>
             <p class="tiny">{{theArticleHereInDetailPage._id}}</p>
             <button type="submit">Let's Save!</button>
         </form>
@@ -70,18 +76,28 @@ https://blog.thoughtram.io/angular/2016/03/21/template-driven-forms-in-angular-2
         <p>Angular REACTIVE-MODEL-DRIVEN FORM</p>
         <div style="border-color: green; border-style: dotted; padding: 10px;">
             <form [formGroup]="myArticleEditFormGroup" on-ngSubmit="letUsSaveReactive(myArticleEditFormGroup)">
+                <p>Edit the Headline:
                 <input
                         type="text"
                         id="articleTitle_id"
                         name="articleTitle_name"
+                        size="60"
                         formControlName="articleTitle_formControlName"
                         bind-ngModel="theArticleHereInDetailPage.articleTitle"
                         on-input="theArticleHereInDetailPage.articleTitle = $event.target.value"
                 >
+                </p>
       <!-- Yes, works:  [(ngModel)]="theArticleHereInDetailPage.articleTitle" -->
+                <br />
                 <button type="submit">Let's Save!</button>
             </form>
 
+        </div>
+        <div *ngFor="let onePic of theArticlePhotosArrayHereInDetailPage">
+            <img src="{{imgUrlStubInThisComponent}}static/img/{{onePic}}" alt="" width="400"  />
+            <br />
+            <div class="tiny">{{ onePic }}</div>
+            <br />
         </div>
         <hr />
 

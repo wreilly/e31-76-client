@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { ArticleService, apiUrlStubInService } from '../article.service';
+import { ArticleService, apiUrlStubInService, imgUrlStubInService } from '../article.service';
 
 // https://stackoverflow.com/questions/38398877/how-do-i-declare-a-model-class-in-my-angular-2-component-using-typescript
 import { Wrarticle } from '../wrarticle'
@@ -29,12 +29,28 @@ export class ArticleDetailComponent {
     theArticleIdHereInDetailPage;
     theArticleHereInDetailPage;
 
+    theArticlePhotosArrayHereInDetailPage;
+    /*
+    From MongoDB, our input here is an Array, that holds one String, holding a stringified Array:
+    O la.
+     [ "[\"sometimes__1525986614512_010006-MexAmerican.jpg\",\"sometimes__1525986614515_AndToThinkWeAllPlayedASmallPart-NewYorkerCartoon-SlackScreenshot-2017-11-14.jpg\"]" ]
+
+    What we want is an Array of Strings:  JSON.parse() does this for us.
+     articlePhotos: (2) 
+     ["sometimes__1525988911510_010006-MexAmerican.jpg", "sometimes__1525988911513_AndToThinkWeAllPlayedASma…t-NewYorkerCartoon-SlackScreenshot-2017-11-14.jpg"]
+
+
+     */
+
     articleTitleCachedBeforeEdit;
 
     editing: boolean = false;
 
     // Passed in, essentially, ("imported from") ArticleService
     apiUrlStubInThisComponent;
+
+    // NEW. For <IMG SRC="" />  E.g. http://0.0.0.0:8089/
+    imgUrlStubInThisComponent;
 
     // Will be filled out (with ID) inside getArticle()
     articleApiUrlWithId;
@@ -62,6 +78,9 @@ export class ArticleDetailComponent {
 */
 // Now as its own export const:
         this.apiUrlStubInThisComponent = apiUrlStubInService;
+
+
+        this.imgUrlStubInThisComponent = imgUrlStubInService;
 
         // TAKE 3 w. REACTIVE-MODEL-DRIVEN Form:
         this.myArticleEditFormGroup = new FormGroup({
@@ -107,7 +126,7 @@ export class ArticleDetailComponent {
                 //   That first intuition was NOT RIGHT.)
                 this._myArticleService.getArticle(this.theArticleIdHereInDetailPage)
                     .subscribe(
-                        (articleIGot: { articleTitle: string }) => {
+                        (articleIGot: { articleTitle: string, articlePhotos: string }) => {
                             // data...
                             this.theArticleHereInDetailPage = articleIGot;
                             console.log('subscribe : this.theArticleHereInDetailPage ', this.theArticleHereInDetailPage) // Yes: the object {} from MongoDB
@@ -115,6 +134,27 @@ export class ArticleDetailComponent {
                             this.myArticleEditFormGroup.patchValue({
                                 articleTitle_formControlName: articleIGot.articleTitle
                             });
+
+                            /*
+                            Let's transform the Photo File Names
+                            In the database they are JSON.stringify()
+                            Now time to JSON.parse()
+                             */
+                            this.theArticlePhotosArrayHereInDetailPage = JSON.parse(articleIGot.articlePhotos)
+                            console.log('this.theArticlePhotosArrayHereInDetailPage ', this.theArticlePhotosArrayHereInDetailPage);
+                            /*
+                            Yes
+                             ["sometimes__1525988911510_010006-MexAmerican.jpg", "sometimes__1525988911513_AndToThinkWeAllPlayedASma…t-NewYorkerCartoon-SlackScreenshot-2017-11-14.jpg"]
+                             0
+                             :
+                             "sometimes__1525988911510_010006-MexAmerican.jpg"
+                             1
+                             :
+                             "sometimes__1525988911513_AndToThinkWeAllPlayedASmallPart-NewYorkerCartoon-SlackScreenshot-2017-11-14.jpg"
+                             */
+
+
+
                         },
                         (error) => {
                             // error

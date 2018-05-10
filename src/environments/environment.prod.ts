@@ -28,19 +28,35 @@ export const environment = {
    */
   //  3. And with line below have it point to **LOCAL** API
 
-  /* */
+  /*
   apiUrlStubInEnvironment: 'http://0.0.0.0:8089/api/v1/articles/' // << Don't forget final '/' !
+*/
+  /*
+   // NEW: Basically same stub, for <IMG SRC="" />
+   imgUrlStubInEnvironment: 'http://0.0.0.0:8089/' // << Yep, final '/'
+   */
+
 
   // Remember, you could also use this, for that SUBNET stuff. Kitchen table, 2nd computer. Cheers.
   /*
   apiUrlStubInEnvironment: 'http://192.168.1.126:8089/api/v1/articles/' // << Don't forget final '/' !
   */
+  /*
+   // NEW: Basically same stub, for <IMG SRC="" />
+   imgUrlStubInEnvironment: 'http://192.168.1.126:8089/' // << Yep, final '/'
+   */
 
 
   // B. For PROD USE up on Digital Ocean:
-  /*
-  apiUrlStubInEnvironment: 'http://104.236.198.117:8089/api/v1/articles/' // << Don't forget final '/' !
-  */
+  /* */
+  apiUrlStubInEnvironment: 'http://104.236.198.117:8089/api/v1/articles/', // << Don't forget final '/' !
+
+
+  /* */
+   // NEW: Basically same stub, for <IMG SRC="" />
+   imgUrlStubInEnvironment: 'http://104.236.198.117:8089/' // << Yep, final '/'
+
+
 
   /* D.O.
    http://104.236.198.117:8089/api/v1/articles/5ac5eeba45ed983e8a8a209e

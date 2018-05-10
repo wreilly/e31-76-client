@@ -95,12 +95,77 @@ in earnest, to run all these HTTP calls to the API!
   }
 
 
-  createArticle(articleToCreatePassedIn) {
+    createArticle(myFormFieldsAndFiles) {  // UPDATE: << This is now FormData, not just a plain object with form fields for an Article
+      /*
+       createArticle(articleToCreatePassedIn) {
+       */
 
-    return this._serviceHttp.post(apiUrlStubInService,
-      articleToCreatePassedIn
-    );
+/*
+      console.log('HERE IN THE SOIVICE articleToCreatePassedIn is ', articleToCreatePassedIn) // Yes we have the pics
+*/
+      console.log('HERE IN THE SOIVICE myFormFieldsAndFiles is ', myFormFieldsAndFiles) // you won't see this FormData here....
+
+
+      var myxhr4 = new XMLHttpRequest;
+      myxhr4.open('POST', '/myFormFieldsAndFilesInService', true);
+      myxhr4.send(myFormFieldsAndFiles);
+      /* YES:
+       ------WebKitFormBoundaryq80IEBooD6GEetmo
+       Content-Disposition: form-data; name="articleUrl_name"
+
+       http://nytimes.com
+       ------WebKitFormBoundaryq80IEBooD6GEetmo
+       Content-Disposition: form-data; name="articleTitle_name"
+
+       gt
+       ------WebKitFormBoundaryq80IEBooD6GEetmo
+       Content-Disposition: form-data; name="articlePhotos_name"
+
+       C:\fakepath\010006-MexAmerican.jpg
+       ------WebKitFormBoundaryq80IEBooD6GEetmo
+       Content-Disposition: form-data; name="file"
+
+       C:\fakepath\010006-MexAmerican.jpg
+       ------WebKitFormBoundaryq80IEBooD6GEetmo--
+       */
+
+
+      /*
+      return this._serviceHttp.post(apiUrlStubInService,
+          articleToCreatePassedIn
+      );
+      */
+/* This IS has been the standard POST '/' endpoint for this service method... */
+      return this._serviceHttp.post(apiUrlStubInService,
+         myFormFieldsAndFiles
+      );
+
+/*  We will try instead doing POST '/articleimages'
+* Why?
+* Because with above we have not been seing that Multer is writing the file down to /public/img/filegoeshere...   Hmm.
+* */
+/* NOPE DON'T WORK for the "Submit Form" button click.
+      return this._serviceHttp.post(apiUrlStubInService + 'articleimages',
+          myFormFieldsAndFiles
+      );*/
   }
+
+  uploadArticleImages(myFormDataFilesHere) {
+    // This, God willing, runs first, off the "Choose File" button
+    // to just upload images to the REST API which uses Multer to stow them
+    // in /public/img
+    // Then, the createArticle would get run. Hmm.
+    // Maybe on 2nd thought, more ideal would be:
+    // 1st pass, do get the image files info, but, do NOT go off to REST API / Multer etc.
+    // Instead, wait for user to click Submit
+    // Then stitch together into FormData both 1) that images files info and 2) fielded data
+    // *Then* go to REST API with all that and let Multer do magic with files,
+    // and let rest of controller/service etc. write fielded data to MongoDB. Hmm.
+
+    // Well, we'll give plan A a short shot here, then come back for 'B' as in Better.
+    return this._serviceHttp.post(apiUrlStubInService + 'articleimages', myFormDataFilesHere);
+
+  } // /uploadArticleImages()
 
   updateArticle(idPassedIn, editedArticle) {
     return this._serviceHttp.put(apiUrlStubInService + '/' + idPassedIn, editedArticle)
@@ -152,4 +217,12 @@ export const apiUrlStubInService = environment.apiUrlStubInEnvironment;
  http://0.0.0.0:8089/api/v1/articles/
  http://192.168.1.126:8089/api/v1/articles/
  http://104.236.198.117:8089/api/v1/articles/
+ */
+
+// NEW: Basically same stub, for <IMG SRC="" />
+export const imgUrlStubInService = environment.imgUrlStubInEnvironment;
+/*
+  http://0.0.0.0:8089/
+  http://192.168.1.126:8089/
+  http://104.236.198.117:8089/
  */

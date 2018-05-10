@@ -2,14 +2,14 @@
 <h3>
 Article Component
 </h3>
-<h4>{{ articleHere.articleTitle }}</h4>
+<h4><a routerLink="/articles/{{articleHere._id}}">{{ articleHere.articleTitle }}</a></h4>
 <!-- https://angular.io/api/router/RouterLink#description
 routerLink vs. [routerLink]
 -->
-<p>Some Times - Article Detail Page: <a routerLink="/articles/{{articleHere._id}}">/articles/{{articleHere._id}}</a>
-    <br />
+<p>Some Times - Article Detail Page: /articles/{{articleHere._id}}</p>
+
     <!-- To display literal '{{ }}', use this pattern to escape: {{ '{' }}-->
-    /articles/{{ '{' }}{{ '{' }}articleHere._id{{ '}' }}{{ '}' }}</p>
+    <!--/articles/{{ '{' }}{{ '{' }}articleHere._id{{ '}' }}{{ '}' }}-->
 <!--
 <p>Some Times - API URL: <a bind-href="articleApiUrlWithId" target="_apiblank">{{articleApiUrlWithId}}</a>
 </p>

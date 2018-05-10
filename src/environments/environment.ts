@@ -15,7 +15,10 @@ export const environment = {
   // Also yes CAN be used "at home" simply.
   // Runs on local machine only.
 /* */
-  apiUrlStubInEnvironment: 'http://0.0.0.0:8089/api/v1/articles/' // << Don't forget final '/' !
+  apiUrlStubInEnvironment: 'http://0.0.0.0:8089/api/v1/articles/', // << Don't forget final '/' !
+
+  // NEW: Basically same stub, for <IMG SRC="" />
+  imgUrlStubInEnvironment: 'http://0.0.0.0:8089/' // << Yep, final '/'
 
 
   /* *** -2- ****** 192.168.1.126  ************* */
@@ -28,6 +31,11 @@ export const environment = {
   // See Also note below re: PACKAGE.JSON
 /*
   apiUrlStubInEnvironment: 'http://192.168.1.126:8089/api/v1/articles/' // << Don't forget final '/' !
+*/
+
+/*
+  // NEW: Basically same stub, for <IMG SRC="" />
+  imgUrlStubInEnvironment: 'http://192.168.1.126:8089/' // << Yep, final '/'
 */
 
 
@@ -74,6 +82,13 @@ export const environment = {
   /*
   apiUrlStubInEnvironment: 'http://104.236.198.117:8089/api/v1/articles/' // << Don't forget final '/' !
   */
+
+  /*
+   // NEW: Basically same stub, for <IMG SRC="" />
+   imgUrlStubInEnvironment: 'http://104.236.198.117:8089/' // << Yep, final '/'
+   */
+
+
 
   /* D.O.
    http://104.236.198.117:8089/api/v1/articles/5ac5eeba45ed983e8a8a209e
