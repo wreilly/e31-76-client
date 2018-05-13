@@ -8,7 +8,9 @@ class ArticleService {
 */
 export class ArticleService {
 
-/* Hmm. Not working to "export" (I think) from here inside the
+/*  FOR URL "STUBS" SEE BOTTOM OF PAGE
+
+Hmm. Not working to "export" (I think) from here inside the
         already-getting-exported class.
         We'll move it outside (bottom of file here), and
         try from there ... ...

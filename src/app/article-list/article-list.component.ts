@@ -1,6 +1,6 @@
 import { Component, OnInit, VERSION } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ArticleService, apiUrlStubInService } from '../article.service';
+import { ArticleService, apiUrlStubInService, imgUrlStubInService } from '../article.service';
 
 // For file upload stuff we'll first try the HTTP POST from right here in the Component; later to the Service. t.b.d.
 import { HttpClient } from '@angular/common/http'
@@ -20,6 +20,7 @@ export class ArticleListComponent {
     howMany = 0; // # of Articles to get. user input, click
     articlesHowMany = []; // Articles user requested, via button click
     apiUrlStubInApp = ''; // init, create a Property
+    imgUrlStubInApp = '';
     titleToDisplay: string;
 
     /* ====================================== */
@@ -54,6 +55,7 @@ export class ArticleListComponent {
 */
 // Now (for heck of it and/or learning), trying to import and use as mere const:
         this.apiUrlStubInApp = apiUrlStubInService
+        this.imgUrlStubInApp = imgUrlStubInService
 
         // this.getAllArticles();
         this._myArticleService.listArticles().subscribe(
